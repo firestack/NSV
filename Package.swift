@@ -3,6 +3,6 @@ import PackageDescription
 let package = Package(
     name: "NSV",
 	dependencies: [
-		.Package(url: "../CPNG", majorVersion: 1)
+		.Package(url: "https://github.com/firestack/CPNG.git", majorVersion: 1)
 	]
 )
