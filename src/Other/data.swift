@@ -80,8 +80,8 @@ public func -(this:Point, that:Point) -> Point{
 
 infix operator * {associativity left precedence 140}
 public func *(this:Point, that:Point) -> Int{
-	var length = (Int(that.x) - Int(this.x))
-	var height = (Int(that.y) - Int(this.y))
+	let length = (Int(that.x) - Int(this.x))
+	let height = (Int(that.y) - Int(this.y))
 	return length * height
 }
 
@@ -144,17 +144,20 @@ func main(){
 	print("ARGV = \(Process.arguments)")
 	let x = Point(0, 0)
 	let y = Point(720, 1440)
-
-	let A = Surface(Process.arguments[1], 720, 1440)
-	let B = A.read(x, y )
+	
+	let NASA = Index(pathRoot:Process.arguments[1])
+	print(NASA.query(3, match: "\"MEDIAN_TOPOGRAPHY\"")?.1.count)
+	
+	//let A = Surface(Process.arguments[1], 720, 1440)
+	//let B = A.read(x, y )
 	print(x-y)
-	print(B.count)
+	//±±==print(B.count)
 
 	
     
 	print(x*y)
 
-	WriteR16(B, size:2, count:x*y)
+	//WriteR16(B, size:2, count:x*y)
     
     
     //WritePNG(B, size:2, count:x*y, A:x, B:y)
