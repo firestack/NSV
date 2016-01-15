@@ -8,6 +8,9 @@ func stripChars(str:String) -> String {
 	return str.stringByTrimmingCharactersInSet(NSMutableCharacterSet(charactersInString:"\"")).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 }
 
+public class NASA{
+	static public var rootStore:String = ""
+}
 
 public class FileUtil{
 	public static func FindFileFromPath(pathStart:String, fileName:String) -> NSURL?{
