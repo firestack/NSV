@@ -1,3 +1,0 @@
-
-let PNG_SETJMP_NOT_SUPPORTED = 1
-main()

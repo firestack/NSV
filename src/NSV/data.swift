@@ -4,6 +4,7 @@ import Darwin
 #else
 import Glibc
 #endif
+import NASA
 
 
 public class Point: CustomStringConvertible{
@@ -80,8 +81,8 @@ public func -(this:Point, that:Point) -> Point{
 
 infix operator * {associativity left precedence 140}
 public func *(this:Point, that:Point) -> Int{
-	var length = (Int(that.x) - Int(this.x))
-	var height = (Int(that.y) - Int(this.y))
+	let length = (Int(that.x) - Int(this.x))
+	let height = (Int(that.y) - Int(this.y))
 	return length * height
 }
 
@@ -139,47 +140,19 @@ func WriteR16(data:[Int16], size:Int, count:Int){
 
 
 func main(){
-	print("PROG_NAME = \(Process.arguments[0])")
-	print("ARGC = \(Process.argc)")
-	print("ARGV = \(Process.arguments)")
-	let x = Point(0, 0)
-	let y = Point(720, 1440)
-
-	let A = Surface(Process.arguments[1], 720, 1440)
-	let B = A.read(x, y )
-	print(x-y)
-	print(B.count)
-
-	
-    
-	print(x*y)
-
-	WriteR16(B, size:2, count:x*y)
-    
-    
-    //WritePNG(B, size:2, count:x*y, A:x, B:y)
-	//
-	// var file = "megt90n000cb.img"
-	// if (Process.argc > 1){
-	// 	file = Process.arguments[1]
+	// print("PROG_NAME = \(Process.arguments[0])")
+	// print("ARGC = \(Process.argc)")
+	// print("ARGV = \(Process.arguments)")
+	// for path in Glob(pattern:Process.arguments[1]+"**/*"){
+	// 	//print(path)
 	// }
-	//
-	// let FH = NSFileHandle(forReadingAtPath:file)
-	// let mapping = Map()
-	// if let data = FH?.readDataOfLength((1440*2) * 720/*(read all lines) 16bits per interger*/){
-	//     let line = UnsafePointer<Int16>(data.bytes)
-	//     for idx in 0..<data.length/2{
-	//
-	//         var ending = "\t"
-	//
-	//         if (idx % 8 == 0){
-	//             ending = "\n"
-	//         }
-	// 		mapping.submit(line[idx].bigEndian)
-	//         print(line[idx].bigEndian, terminator:ending)
-	//
-	//     }
-	//
-	// }
-	// mapping.info()
+	//print(FileUtil.FindFileFromPath(Process.arguments[1], fileName:"index.tab"))
+
+	let NASA = Index(pathRoot:Process.arguments[1])
+	let results = NASA.query([SearchQuery(3, "MEDIAN_TOPOGRAPHY"), SearchQuery(12, "720")])
+	for result in results! where results != nil{
+		print(result)
+		print(FileUtil.FindFileFromPath(Process.arguments[1], fileName:result.fileSpecificationName.lowercaseString.pathComponents.last!))
+	}
+
 }

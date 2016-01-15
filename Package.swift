@@ -2,7 +2,13 @@ import PackageDescription
 
 let package = Package(
     name: "NSV",
-	dependencies: [
-	//	.Package(url: "https://github.com/firestack/CPNG.git", majorVersion: 1)
+	targets: [
+		Target(
+			name: "NSV",
+			dependencies: [.Target(name: "NASA")]
+		),
+		Target(
+			name:"NASA"
+		)
 	]
 )
