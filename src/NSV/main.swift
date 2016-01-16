@@ -10,10 +10,10 @@ import NASA
 // }
 //print(FileUtil.FindFileFromPath(Process.arguments[1], fileName:"index.tab"))
 
-NASA.rootStore = Process.arguments[1]
-let MGSL = Index(pathRoot:Process.arguments[1])
+//NASA.rootStore = Process.arguments[1]
+//let MGSL = Index(pathRoot:Process.arguments[1])
 
-let results = MGSL.query([SearchQuery(3, "MEDIAN_TOPOGRAPHY"), SearchQuery(12, "720")])
+//let results = MGSL.query([SearchQuery(3, "MEDIAN_TOPOGRAPHY"), SearchQuery(12, "*")])
 
 
 

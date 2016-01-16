@@ -14,12 +14,12 @@ public class Index{
 	private var fin:NSFileHandle?
 	public var rows = [[String]]()
 
-	static public func FindIndex(findFromPath:String) -> NSURL? {
-		return FileUtil.FindFileFromPath(findFromPath, fileName:"index.tab")
+	static public func FindIndex() -> NSURL? {
+		return FileUtil.FindFileFromPath("index.tab")
 	}
 
 	public init(pathRoot:String){
-		INDEX = Index.FindIndex(pathRoot)
+		INDEX = Index.FindIndex()
 		openIndex()
 		preOpen()
 

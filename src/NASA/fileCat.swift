@@ -99,6 +99,20 @@ public class FileCat: CustomStringConvertible{
 			return internalData[14]
 		}
 	}
+}
 
+extension FileCat: Equatable {}
 
+public func ==(lhs: FileCat, rhs: FileCat) -> Bool{
+	guard lhs.internalData.count == rhs.internalData.count else{
+		return false
+	}
+
+	for i in 0..<lhs.internalData.count{
+		if lhs.internalData[i] != rhs.internalData[i]{
+			return false
+		}
+	}
+
+	return true
 }
