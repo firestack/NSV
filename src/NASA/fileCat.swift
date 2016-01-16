@@ -23,7 +23,16 @@ public class FileCat: CustomStringConvertible{
 			"\n"
 		}
 	}
-
+	public var X:Int? {
+		get{
+			return Int(lineSamples)!
+		}
+	}
+	public var Y:Int? {
+		get{
+			return Int(lines)!
+		}
+	}
 	public var volumeID:String {
 		get{
 			return internalData[0]

@@ -2,7 +2,7 @@ import Foundation
 
 public class labelInfo: CustomStringConvertible{
 	var URI:NSURL?
-	var img:imageProxy?
+	public var img:imageProxy?
 	var info:FileCat
 
 	public init(fromFileCat:FileCat){
@@ -23,7 +23,7 @@ public class labelInfo: CustomStringConvertible{
 
 	func createImageProxy(){
 		if let location = FileUtil.FindFileFromPath(info.productID.lowercaseString){
-			img = imageProxy(URI:location)
+			img = imageProxy(URI:location, fileCat:info)
 		}
 	}
 }
@@ -32,6 +32,8 @@ public class labelInfo: CustomStringConvertible{
 public class imageProxy: CustomStringConvertible {
 	let FS:NSFileHandle?
 	let URI:NSURL
+	let fileSpec:FileCat
+	let stats = Map()
 
 	public var description:String {
 		get {
@@ -39,10 +41,30 @@ public class imageProxy: CustomStringConvertible {
 		}
 	}
 
-	public init(URI:NSURL){
+	public init(URI:NSURL, fileCat:FileCat){
 		self.URI = URI
 		FS = try? NSFileHandle(forReadingFromURL:URI)
+		fileSpec = fileCat
 
+	}
+
+	public func getBlock(a:Point,_ b:Point) -> [Int16]{
+		var imgBlock = [Int16]()
+
+		for heightPos in a.y..<b.y{
+			// Seek to line + offset * 2 because of Int16 width
+			FS?.seekToFileOffset((heightPos * UInt64(fileSpec.X!) * 2) + (a.x * 2))
+
+			if let data = FS?.readDataOfLength(Int((b-a).x * 2)){
+				let line = UnsafePointer<Int16>(data.bytes)
+				for idx in 0..<data.length/2{
+					stats.submit(line[idx].bigEndian)
+					imgBlock.append(line[idx].bigEndian)
+				}
+			}
+		}
+
+		return imgBlock
 	}
 }
 

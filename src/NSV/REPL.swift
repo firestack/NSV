@@ -78,17 +78,50 @@ class Lookup{
 			guard let bestMatch = searchString(m)?[0] else{
 				return nil
 			}
+			var labelRef = labelInfo(fromFileCat:bestMatch)
 			print("Using the best match: \(bestMatch)")
 
 			print("Enforcing size constraints on image\n X:0->\(bestMatch.lineSamples)\tY:0->\(bestMatch.lines)\nBit width \(bestMatch.sampleBits)")
 
-			// Get user input for first Point. Loop if larger than boundries
-			repeat {
+			// Reuseable closure
+			var GetNumber = { (message:String) -> (Int, Int) in
+				print(message)
+				// Get user input for first Point. Loop if larger than boundries
+				var shouldExit = false
+				repeat {
+					var UI = readLine(stripNewline:true)!.componentsSeparatedByString(" ")
 
-			} while()
+					guard UI.count >= 2 else{
+						print("Must enter two numbers")
+						continue
+					}
+
+					guard let x = Int(UI[0]), y = Int(UI[1]) else{
+						print("Must be intergers")
+						continue
+					}
+
+					guard 0 <= x && x < bestMatch.X &&
+					0 <= y && y < bestMatch.Y else{
+						print("Must be within range")
+						continue
+					}
+
+					return (x, y)
 
 
-			return "finished...."
+				} while(!shouldExit)
+
+			}
+
+			var pos1 = Point(pointTuple:GetNumber("Point.1:"))
+			var pos2 = Point(pointTuple:GetNumber("Point.2"))
+
+			print("P1\(pos1) \nP2\(pos2) \nsize:\(pos2 - pos1) \narea:\(pos1 * pos2)")
+
+			print("Name your file:", terminator:"")
+
+			return String(writeToFile(readLine(stripNewline:true)!+".r16", labelRef.img!.getBlock(pos1, pos2)))
 		},
 
 		"init":{ (m:String) -> String? in
@@ -129,6 +162,18 @@ class Lookup{
 			//Transform the data into NSData using "pointers" and the size obtained above
 			fout?.writeData(NSData(bytes:data, length: size ))
 			return String(size)
+		},
+
+		"testWriteAlt":{ (m:String) -> String? in
+			// This works. simpler than above ("testWrite")
+			var FS = NSFileManager()
+
+			var data = [1,2,3,4,5,6,7,8,9,7,8,6,6,46,54,654,654,654,651,654,6894,61,651]
+			var size = data.count
+			size *= sizeofValue(data)
+
+			return String(FS.createFileAtPath("./out.bin", contents:NSData(bytes:data, length:size), attributes:nil))
+
 		}
 
 
