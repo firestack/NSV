@@ -26,9 +26,22 @@ public class NASA{
 }
 
 
-public func writeToFile(name:String,_ data:[Int16]) -> Bool{
+public func writeToFile(name:String, inout _ data:[Int16]) -> Bool{
 	let FS = NSFileManager()
 	let size = data.count * sizeofValue(data)
-	print("The size of the array is \(size)\nAttempting to write to \(NASA.rootStore!+name)")
-	return FS.createFileAtPath(NASA.rootStore!+name, contents:NSData(bytes:data, length:size), attributes:nil)
+	print("The size of the array is \(size)\nAttempting to write to \(name)")
+	let d = NSData(bytes:data, length:size)
+	if FS.createFileAtPath(name, contents:nil, attributes:nil){
+		if let fout = NSFileHandle(forWritingAtPath:name){
+			fout.writeData(d)
+			return true
+
+		}
+		return false
+
+	}
+	else{
+		return false
+	}
+
 }
