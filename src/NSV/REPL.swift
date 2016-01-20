@@ -119,10 +119,14 @@ class Lookup{
 
 			print("P1\(pos1) \nP2\(pos2) \nsize:\(pos2 - pos1) \narea:\(pos1 * pos2)")
 
-			print("Name your file:", terminator:"")
 			var block = labelRef.img!.getBlock(pos1, pos2)
 
-			return String(writeToFile("./"+readLine(stripNewline:true)!+".r16", &block))
+			print("Testing Tiling with subdivion of 2")
+
+			return String(block.tileToFiles(subdivisions:4, size:pos2-pos1 ))
+
+			//return String(writeToFile("./"+readLine(stripNewline:true)!+".r16", &block))
+			//return String(block.writeToFile("./tiles/"+readLine(stripNewline:true)!+".r16"))
 		},
 
 		"init":{ (m:String) -> String? in
